@@ -1,7 +1,7 @@
 //
 // Created by Brian on 9/8/2015.
 //
-#include <fstream>
+
 #include "elevator.h"
 
 using namespace std;
@@ -48,10 +48,14 @@ int Elevator::printStats(vector<Elevator> & elist)
     if(numInstructions) {
         cout << "Elevator Instructions: ";
         for (int i = 0; i < numInstructions; i++) {
-            if (i == numInstructions - 1)
-                cout << E.instruction[i] << endl;
-            else
-                cout << E.instruction[i] << ", ";
+            if (i == numInstructions - 1) {
+                cout << "Moving to level " << E.instruction[i] << endl;
+                //E.level = E.instruction[i];
+            }
+            else {
+                cout << "Moving to level " << E.instruction[i] << ", ";
+                //E.level = E.instruction[i];
+            }
         }
     }
     else
@@ -134,19 +138,19 @@ int Elevator::outputStats(vector<Elevator> & elist) {
         if (numInstructions) {
             stats << "Elevator Instructions: ";
             for (int i = 0; i < numInstructions; i++) {
-
+/*
                 if (E.instruction[i] > E.level)
                     E.direction = "up";
                 if (E.instruction[i] < E.level)
                     E.direction = "down";
-
+*/
                 if (i == numInstructions - 1) {
-                    stats << "Moving " << E.direction << " to level " << E.instruction[i] << endl;
-                    E.level = E.instruction[i];
+                    stats << "Moving to level " << E.instruction[i] << endl;
+                    //E.level = E.instruction[i];
                 }
                 else {
-                    stats << "Moving " << E.direction << " to level " << E.instruction[i] << ", ";
-                    E.level = E.instruction[i];
+                    stats << "Moving to level " << E.instruction[i] << ", ";
+                    //E.level = E.instruction[i];
                 }
             }
             stats << endl;

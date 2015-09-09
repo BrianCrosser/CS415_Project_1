@@ -11,7 +11,7 @@ int main()
     vector<Elevator> elevatorList;
     Elevator E;
     while(runBool) {
-        cout << "Commands: (1) Add a level, (2) Add an elevator, (3) Print stats to output file, (4) Print stats of elevator to screen, (5) exit program" << endl;
+        cout << "Commands: (1) Add level, (2) Add an elevator, (3) Print stats of elevator to output file, (4) Print stats of elevator to screen, (5) exit program" << endl;
         cout << "Please give a command!: " << endl;
         cin >> userInput;
         switch (userInput) {

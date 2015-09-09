@@ -6,8 +6,6 @@
 
 using namespace std;
 
-void ElevatorMovement(vector<Elevator> &elist, int id, int level);
-
 int Elevator::createElevator(vector<Elevator> & L)
 {
     //Create an elevator and its starting stats
@@ -89,7 +87,7 @@ int Elevator::addInstruction(vector<Elevator> & elist) {
     return 0;
 }
 
-void ElevatorMovement(vector<Elevator> &elist, int id, int level) {
+void Elevator::ElevatorMovement(vector<Elevator> &elist, int id, int level) {
     if (elist[id - 1].level < level) { // If you are below the specified level, move up
         elist[id - 1].direction = "up";
         while (elist[id - 1].level < level) { // while the level of the current floor is less the desired level, move up.

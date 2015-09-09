@@ -6,8 +6,6 @@
 
 using namespace std;
 
-void ElevatorMovement(vector<Elevator> &elist, int id, int level);
-
 int Elevator::createElevator(vector<Elevator> & L)
 {
     //Create an elevator and its starting stats

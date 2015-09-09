@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 int Elevator::createElevator(vector<Elevator> & L)
 {
     //Create an elevator and its starting stats
@@ -60,17 +59,16 @@ int Elevator::printStats(vector<Elevator> & elist)
     return 0;
 }
 
-int Elevator::addInstruction(vector<Elevator> & elist)
-{
+int Elevator::addInstruction(vector<Elevator> & elist) {
     // Adds a level the elevator must travel to
     int id, level;
     int numElevators = elist.size();
 
-    if(numElevators == 0) {
+    if (numElevators == 0) {
         cout << "There are no elevators!";
         return 0;
     }
-    else if(numElevators == 1)
+    else if (numElevators == 1)
         id = 1;
     else {
         cout << "What elevator are you adding instruction to?: ";
@@ -84,7 +82,22 @@ int Elevator::addInstruction(vector<Elevator> & elist)
     }
     cout << "What level are you traveling to?: ";
     cin >> level;
-    elist[id-1].instruction.push_back(level);
-
+    elist[id - 1].instruction.push_back(level);
+    ElevatorMovement(elist, id, level);
     return 0;
+}
+
+void ElevatorMovement(vector<Elevator> &elist, int id, int level) {
+    if (elist[id - 1].level < level) { // If you are below the specified level, move up
+        elist[id - 1].direction == "up";
+        while (elist[id - 1].level < level) { // while the level of the current floor is less the desired level, move up.
+            elist[id - 1].level = elist[id - 1].level + 1; //increment until desired floor
+        }
+    }
+    if (elist[id - 1].level > level) { // If you are below the specified level, move up
+        elist[id - 1].direction == "down";
+        while (elist[id - 1].level < level) { // while the level of the current floor is less the desired level, move up.
+            elist[id - 1].level = elist[id - 1].level - 1; //increment until desired floor
+        }
+    }
 }

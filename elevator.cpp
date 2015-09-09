@@ -4,9 +4,6 @@
 
 #include "elevator.h"
 
-#include <iostream>
-#include <vector>
-
 using namespace std;
 
 
@@ -30,8 +27,10 @@ int Elevator::printStats(vector<Elevator> & elist)
     Elevator E;
     int elevatorNum;
     int numElevators = elist.size();
-    if(numElevators == 0)
+    if(numElevators == 0) {
         cout << "There are no elevators!" << endl;
+        return 0;
+    }
     else if(numElevators > 1) {
         cout << "There are " << numElevators << " elevators!" << endl;
         cout << "What elevator do you want to know about?: ";
@@ -67,8 +66,10 @@ int Elevator::addInstruction(vector<Elevator> & elist)
     int id, level;
     int numElevators = elist.size();
 
-    if(numElevators == 0)
+    if(numElevators == 0) {
         cout << "There are no elevators!";
+        return 0;
+    }
     else if(numElevators == 1)
         id = 1;
     else {

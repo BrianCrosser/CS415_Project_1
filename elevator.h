@@ -6,6 +6,7 @@
 #define CS415_PROJECT_1_ELEVATOR_H
 #include <iostream>
 #include <vector>
+#include <time.h>
 
 using namespace std;
 

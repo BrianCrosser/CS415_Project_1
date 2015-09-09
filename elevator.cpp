@@ -1,7 +1,7 @@
 //
 // Created by Brian on 9/8/2015.
 //
-
+#include <fstream>
 #include "elevator.h"
 
 using namespace std;
@@ -100,4 +100,60 @@ void Elevator::ElevatorMovement(vector<Elevator> &elist, int id, int level) {
             elist[id - 1].level = elist[id - 1].level - 1; //increment until desired floor
         }
     }
+}
+
+
+int Elevator::outputStats(vector<Elevator> & elist) {
+    // Prints out a elevators information
+    Elevator E;
+    int elevatorNum = 0;
+    int numElevators = elist.size();
+
+    ofstream stats;
+    stats.open("/Users/zachswinford/Desktop/stats.txt");
+
+    if (numElevators == 0)
+        stats << "There are no elevators!" << endl;
+    else if (numElevators > 1) {
+        stats << "There are " << numElevators << " elevators!" << endl;
+        stats << endl;
+    }
+    else
+        elevatorNum = 1;
+    for (int j = 0; j < numElevators; j++) {
+
+        E = elist[j];
+        int numInstructions = E.instruction.size();
+        stats << "Elevator " << E.id << endl;
+        stats << "---------------\n";
+        stats << "Elevator Level: " << E.level << endl;
+        stats << "Elevator Direction: " << E.direction << endl;
+
+        if (numInstructions) {
+            stats << "Elevator Instructions: ";
+            for (int i = 0; i < numInstructions; i++) {
+
+                if (E.instruction[i] > E.level)
+                    E.direction = "up";
+                if (E.instruction[i] < E.level)
+                    E.direction = "down";
+
+                if (i == numInstructions - 1) {
+                    stats << "Moving " << E.direction << " to level " << E.instruction[i] << endl;
+                    E.level = E.instruction[i];
+                }
+                else {
+                    stats << "Moving " << E.direction << " to level " << E.instruction[i] << ", ";
+                    E.level = E.instruction[i];
+                }
+            }
+            stats << endl;
+        }
+        else {
+            stats << "No instructions!" << endl;
+            stats << endl;
+        }
+    }
+    stats.close();
+    return 0;
 }

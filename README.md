@@ -2,7 +2,7 @@
 
 BACKLOG :
 
-Swinford - Work on sort algorithm (built-in library if you want), to sort the Elevator.Instructions/Elevator.Requests
+Swinford - Work on sort algorithm (built-in library if you want), to sort the Elevator.Instructions/Elevator.Requests /n/
 Crosser - Work on step function, to call the movement
 Nick - Movement based of sorted Elevator.Instruction/Elevator.Requests
 

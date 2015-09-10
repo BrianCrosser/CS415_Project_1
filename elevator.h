@@ -11,12 +11,22 @@
 
 using namespace std;
 
-class Elevator {
-public:
-    int id;
+struct request{
     int level;
     string direction;
+    int time;
+};
+
+extern const int MAX_WEIGHT;
+extern vector<request> requestList;
+
+class Elevator {
+public:
+    int id, level, weight;
+    string direction;
     vector<int> instruction;
+
+
 
     int createElevator(vector<Elevator> &L);
 
@@ -27,5 +37,7 @@ public:
     int outputStats(vector<Elevator> & elist);
 
     void ElevatorMovement(vector<Elevator> &elist, int id, int level);
+
+    int elevatorBrain(Elevator & E);
 };
     #endif //CS415_PROJECT_1_ELEVATOR_H

@@ -87,7 +87,6 @@ int Elevator::addInstruction(vector<Elevator> & elist) {
     cout << "What level are you traveling to?: ";
     cin >> level;
     elist[id - 1].instruction.push_back(level);
-    ElevatorMovement(elist, id, level);
     return 0;
 }
 
@@ -159,5 +158,27 @@ int Elevator::outputStats(vector<Elevator> & elist) {
         }
     }
     stats.close();
+    return 0;
+}
+
+int Elevator::elevatorBrain(Elevator & E)
+{
+    // Distributes the request list to elevator
+    if(E.weight < MAX_WEIGHT)
+    {
+        for(int i = 0; i < requestList.size(); i++)
+        {
+            if(E.direction == "up" && requestList[i].direction == "up" && E.level < requestList[i].level) {
+                E.instruction.push_back(requestList[i].level);
+                requestList.erase(requestList.begin()+i);
+                i--;
+            }
+            else if(E.direction == "down" && requestList[i].direction == "down" && E.level > requestList[i].level) {
+                E.instruction.push_back(requestList[i].level);
+                requestList.erase(requestList.begin() + i);
+                i--;
+            }
+        }
+    }
     return 0;
 }

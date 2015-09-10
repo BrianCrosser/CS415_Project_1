@@ -4,23 +4,64 @@
 
 using namespace std;
 
+const int MAX_WEIGHT = 2500;
+vector<request> requestList;
+
+int elevatorBrain(Elevator & E)
+{
+    // Distributes the request list to elevator
+    if(E.weight < MAX_WEIGHT)
+    {
+        for(int i = 0; i < requestList.size(); i++)
+        {
+            if(E.direction == "up" && requestList[i].direction == "up" && E.level < requestList[i].level) {
+                E.instruction.push_back(requestList[i].level);
+                requestList.erase(requestList.begin()+i);
+                i--;
+            }
+            else if(E.direction == "down" && requestList[i].direction == "down" && E.level > requestList[i].level) {
+                E.instruction.push_back(requestList[i].level);
+                requestList.erase(requestList.begin() + i);
+                i--;
+            }
+        }
+    }
+    return 0;
+}
+
+int step(vector<Elevator> & eList)
+{
+    for(int i = 0; i < eList.size(); i++)
+    {
+
+    }
+}
+
 int main()
 {
-    int userInput;
+    // Declaring variables needed
+    int userInput, numElevators, numLevels;
     bool runBool = true;
     vector<Elevator> elevatorList;
     Elevator E;
+
+    // Creates elevators
+    cout << "How many elevators are there?: ";
+    cin >> numElevators;
+    for(int i = 0; i < numElevators; i++)
+        E.createElevator(elevatorList);
+
+    // Creates amount of levels building has
+    cout << "How many levels does the building have?: ";
+    cin >> numLevels;
+
     while(runBool) {
-        cout << "Commands: (1) Add level, (2) Add an elevator, (3) Print stats of elevator to output file, (4) Print stats of elevator to screen, (5) exit program" << endl;
+        cout << "Commands: (1) Step, (3) Print stats of elevator to output file, (4) Print stats of elevator to screen, (5) exit program" << endl;
         cout << "Please give a command!: " << endl;
         cin >> userInput;
         switch (userInput) {
             case 1:
-                E.addInstruction(elevatorList);
-                cout << endl;
-                break;
-            case 2:
-                E.createElevator(elevatorList);
+                step(elevatorList);
                 cout << endl;
                 break;
             case 3:

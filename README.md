@@ -12,3 +12,11 @@ Functions that need implementation   9/10/15
 1. Sort
 2. Step
 3. Movement
+
+ --------------------------------------------- ---------------------------------------------
+ Function Implementation 9/10/15
+  --------------------------------------------- ---------------------------------------------
+  
+  ElevatorMovement(Vector<Elevator> & E)
+  Descend (Vector<Elevator> & E)
+  Ascend (Vector<Elevator> & E) *** do this one first.

@@ -105,7 +105,6 @@ void Elevator::ElevatorMovement(vector<Elevator> &elist, int id, int level) {
     }
 }
 
-
 int Elevator::outputStats(vector<Elevator> & elist) {
     // Prints out a elevators information
     Elevator E;
@@ -180,5 +179,42 @@ int Elevator::elevatorBrain(Elevator & E)
             }
         }
     }
+    return 0;
+}
+
+int Elevator::Descend (vector<Elevator> & E)
+{
+    vector<Elevator> list;
+
+    int numElevators = E.size();
+    for (int i = 0; i < numElevators; i++)
+    {
+        if (E[i].direction == "down")
+            list.push_back(E[i]);
+    }
+    sort(list.begin(),list.end(), greater<int>());
+
+    for(int i = 0; i < list.size(); i++)
+        cout << list[i] << endl;
+
+    return 0;
+}
+
+
+int Elevator::Ascend (vector<Elevator> & E)
+{
+    vector<Elevator> list;
+
+    int numElevators = E.size();
+    for (int i = 0; i < numElevators; i++)
+    {
+        if (E[i].direction == "up")
+            list.push_back(E[i]);
+    }
+    sort(list.begin(),list.end(), less<int>());
+
+    for(int i = 0; i < list.size(); i++)
+        cout << list[i] << endl;
+
     return 0;
 }

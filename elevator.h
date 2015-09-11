@@ -26,8 +26,6 @@ public:
     string direction;
     vector<int> instruction;
 
-
-
     int createElevator(vector<Elevator> &L);
 
     int printStats(vector<Elevator> &elist);
@@ -39,5 +37,10 @@ public:
     void ElevatorMovement(vector<Elevator> &elist, int id, int level);
 
     int elevatorBrain(Elevator & E);
+
+    int Descend (vector<Elevator> & E);
+
+    int Ascend (vector<Elevator> & E);
+
 };
     #endif //CS415_PROJECT_1_ELEVATOR_H

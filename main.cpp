@@ -7,34 +7,15 @@ using namespace std;
 const int MAX_WEIGHT = 2500;
 vector<request> requestList;
 
-int elevatorBrain(Elevator & E)
-{
-    // Distributes the request list to elevator
-    if(E.weight < MAX_WEIGHT)
-    {
-        for(int i = 0; i < requestList.size(); i++)
-        {
-            if(E.direction == "up" && requestList[i].direction == "up" && E.level < requestList[i].level) {
-                E.instruction.push_back(requestList[i].level);
-                requestList.erase(requestList.begin()+i);
-                i--;
-            }
-            else if(E.direction == "down" && requestList[i].direction == "down" && E.level > requestList[i].level) {
-                E.instruction.push_back(requestList[i].level);
-                requestList.erase(requestList.begin() + i);
-                i--;
-            }
-        }
-    }
-    return 0;
-}
-
 int step(vector<Elevator> & eList)
 {
     for(int i = 0; i < eList.size(); i++)
     {
 
     }
+
+
+    return 0;
 }
 
 int main()

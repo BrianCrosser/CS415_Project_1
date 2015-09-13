@@ -13,6 +13,9 @@ int step(vector<Elevator> & eList)
     {
 
     }
+
+
+    return 0;
 }
 
 int main()

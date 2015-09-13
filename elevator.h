@@ -8,6 +8,7 @@
 #include <vector>
 #include <time.h>
 #include <fstream>
+#include<algorithm>
 
 using namespace std;
 
@@ -33,8 +34,6 @@ public:
     int addInstruction(vector<Elevator> &elist);
 
     int outputStats(vector<Elevator> & elist);
-
-    void ElevatorMovement(vector<Elevator> &elist, int id, int level);
 
     int elevatorBrain(Elevator & E);
 

@@ -9,11 +9,49 @@ vector<request> requestList;
 
 int step(vector<Elevator> & eList)
 {
+    // moves the elevator one floor and checks to see if level is a requested level it must stop at.
+    // If so, it removes level from instructions list
     for(int i = 0; i < eList.size(); i++)
     {
-
+        if(eList[i].direction == "up") {
+            eList[i].level++;
+            for(int j = 0; j < eList[i].instruction.size(); j++) {
+                if (eList[i].level == eList[i].instruction[j]) {
+                    eList[i].instruction.erase(eList[i].instruction.begin() + j);
+                    if (eList[i].instruction.size() == 0)
+                        eList[i].direction = "None";
+                }
+            }
+        }
+        else if(eList[i].direction == "down") {
+            eList[i].level--;
+            for(int j = 0; j < eList[i].instruction.size(); j++) {
+                if (eList[i].level == eList[i].instruction[j]) {
+                    eList[i].instruction.erase(eList[i].instruction.begin() + j);
+                    if (eList[i].instruction.size() == 0)
+                        eList[i].direction = "None";
+                }
+            }
+        }
     }
 
+    // ask users for new instructions
+    request newRequest;
+    string userInput;
+    cout << "Is there a new request to a level(yes/no)?: ";
+    cin >> userInput;
+    if(userInput == "yes")
+    {
+        cout << "What level is being requested?: ";
+        cin >> newRequest.level;
+        cout << "What direction are you going(up/down)?: ";
+        cin >> newRequest.direction;
+        requestList.push_back(newRequest);
+    }
+
+    // adds new request to elevator's instructions
+    for(int i = 0; i < eList.size(); i++)
+        eList[i].elevatorBrain(eList[i]);
 
     return 0;
 }

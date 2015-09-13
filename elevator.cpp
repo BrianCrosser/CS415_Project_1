@@ -13,7 +13,7 @@ int Elevator::createElevator(vector<Elevator> & L)
     elevator.id = L.size() +1;
     cout << "What is the elevator's initial level?: ";
     cin >> elevator.level;
-    elevator.direction = "up";
+    elevator.direction = "None";
     L.push_back(elevator);
     cout << "An Elevator was built successfully!" << endl;
 
@@ -90,21 +90,6 @@ int Elevator::addInstruction(vector<Elevator> & elist) {
     return 0;
 }
 
-void Elevator::ElevatorMovement(vector<Elevator> &elist, int id, int level) {
-    if (elist[id - 1].level < level) { // If you are below the specified level, move up
-        elist[id - 1].direction = "up";
-        while (elist[id - 1].level < level) { // while the level of the current floor is less the desired level, move up.
-            elist[id - 1].level = elist[id - 1].level + 1; //increment until desired floor
-        }
-    }
-    if (elist[id - 1].level > level) { // If you are below the specified level, move up
-        elist[id - 1].direction = "down";
-        while (elist[id - 1].level < level) { // while the level of the current floor is less the desired level, move up.
-            elist[id - 1].level = elist[id - 1].level - 1; //increment until desired floor
-        }
-    }
-}
-
 int Elevator::outputStats(vector<Elevator> & elist) {
     // Prints out a elevators information
     Elevator E;
@@ -177,11 +162,20 @@ int Elevator::elevatorBrain(Elevator & E)
                 requestList.erase(requestList.begin() + i);
                 i--;
             }
+            else if(E.direction == "None")
+            {
+                E.instruction.push_back(requestList[i].level);
+                if(E.level < E.instruction[0])
+                    E.direction = "up";
+                else
+                    E.direction = "down";
+            }
         }
     }
     return 0;
 }
 
+/*
 int Elevator::Descend (vector<Elevator> & E)
 {
     vector<Elevator> list;
@@ -218,3 +212,4 @@ int Elevator::Ascend (vector<Elevator> & E)
 
     return 0;
 }
+ */

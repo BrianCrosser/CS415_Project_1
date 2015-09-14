@@ -1,5 +1,21 @@
 # CS415_Project_1
 
+Implementation
+------------
+
+We want to solve the optimization problem: given that a building has n floors and m elevators,
+how could we most efficiently move people up/down the floors?
+
+The elevators travel in a single direction until the last request in that direction or it reaches the first or top floor.
+If there is no request, stop and proceed towards the other direction, if there is any request from other direction.
+
+Each elevators can take multiple requests. The requests are then sorted in the the direction the elevator is heading.
+When the elevator reaches a request from a level, it pops it from the list and continues to the next level.
+
+Each elevator has a maximum weight of 2500 lbs. Each request (a passenger) is given a random weight and if the load
+becomes too heavy for the maximum weight of the elevator, the elevator continues until the passenger is let off
+(a request to a destination level), then proceeds.
+
 BACKLOG :
 
 Swinford - Work on sort algorithm (built-in library if you want), to sort the Elevator.Instructions/Elevator.Requests

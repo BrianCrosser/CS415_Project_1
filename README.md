@@ -24,9 +24,10 @@ Features :
     1. direction- the elevator will continue in its current direction until it hits the top/bottom floor or there if there
     are no levels with pickups of drop offs for the elevator to stop at in its current direction
     2. if a elevator does not have instructions, it checks to see if there are request
-    3. if a elevator does not have instructions and there are no request,
+    3.
  Important:
     1. user gets information about elevators
+    2. if a elevator does not have instructions and there are no request, it moves to a smart level to wait at
 
  Extra:
     1. weight- if elevator reaches max weight capacity, the elevator will not stop to pick more people up

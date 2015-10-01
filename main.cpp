@@ -65,6 +65,26 @@ int main()
     Elevator E;
 
     // Creates elevators
+    cout << "                                                               .---.\n"
+                    "                                                              /  .  \\\n"
+                    "                                                             |\\_/|   |\n"
+                    "                                                             |   |  /|\n"
+                    "  .----------------------------------------------------------------' |\n"
+                    " /  .-.                                                              |\n"
+                    "|  /   \\                  Elevator Project                           |\n"
+                    "| |\\_.  |                      CS 415                                |\n"
+                    "|\\|  | /|                                                            |\n"
+                    "| `---' |                 By:                                        |\n"
+                    "|       |         Nguyen, Swinford, Crosser                          | \n"
+                    "|       |                                                           /\n"
+                    "|       |----------------------------------------------------------'\n"
+                    "\\       |\n"
+                    " \\     /\n"
+                    "  `---'\n"
+                    "\n"
+                    "\n"
+                    " "  << endl;
+
     cout << "How many elevators are there?: ";
     cin >> numElevators;
     for(int i = 0; i < numElevators; i++)

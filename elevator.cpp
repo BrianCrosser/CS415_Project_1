@@ -40,9 +40,13 @@ int Elevator::printStats(vector<Elevator> & elist)
 
     E = elist[elevatorNum-1];
     int numInstructions = E.instruction.size();
-    cout << "Elevator ID: " << E.id << endl;
-    cout << "Elevator Level: " << E.level << endl;
-    cout << "Elevator Direction: " << E.direction << endl;
+    cout << "------------------------------------" << endl;
+    cout << "| Elevator ID: " << E.id << "                   |" << endl;
+    cout << "------------------------------------" << endl;
+    cout << "| Elevator Level: " << E.level << "                |" << endl;
+    cout << "------------------------------------" << endl;
+    cout << "| Elevator Direction: " << E.direction << "         |" << endl;
+    cout << "------------------------------------" << endl;
     if(numInstructions) {
         cout << "Elevator Instructions: ";
         for (int i = 0; i < numInstructions; i++) {
@@ -111,10 +115,10 @@ int Elevator::outputStats(vector<Elevator> & elist) {
 
         E = elist[j];
         int numInstructions = E.instruction.size();
-        stats << "Elevator " << E.id << endl;
+        stats << "| Elevator " << E.id << endl;
         stats << "---------------\n";
-        stats << "Elevator Level: " << E.level << endl;
-        stats << "Elevator Direction: " << E.direction << endl;
+        stats << "| Elevator Level: " << E.level << endl;
+        stats << "| Elevator Direction: " << E.direction << endl;
 
         if (numInstructions) {
             stats << "Elevator Instructions: ";

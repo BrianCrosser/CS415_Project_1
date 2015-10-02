@@ -39,11 +39,27 @@ Swinford - Work on sort algorithm (built-in library if you want), to sort the El
 Crosser - Work on step function, to call the movement
 Nick - Movement based of sorted Elevator.Instruction/Elevator.Requests
 
+--------------------------------------------- --------------------------------------------- -----------------------------------
+Bugs   10/2/15
+ --------------------------------------------- --------------------------------------------- -----------------------------------
+
+1. elevator instructions will append level even if level is already in list, but then only deletes one of the two identical instructions when it gets to that level
+2. program will not print info into file when commanded to
+
  --------------------------------------------- --------------------------------------------- -----------------------------------
 Bugs   9/13/15
  --------------------------------------------- --------------------------------------------- -----------------------------------
 
 1. Instructions not correctly being deleted once level reached
+
+ --------------------------------------------- --------------------------------------------- -----------------------------------
+Need to do   10/2/15
+ --------------------------------------------- --------------------------------------------- -----------------------------------
+
+ 1. implement weight into elevators
+ 2. implement time into request waiting
+ 3. fix bugs
+ 4. set bounds so elevators cannot go to non-existing levels
 
  --------------------------------------------- --------------------------------------------- -----------------------------------
 Need to do   9/13/15

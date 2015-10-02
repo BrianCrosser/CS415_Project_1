@@ -23,19 +23,18 @@ extern vector<request> requestList;
 
 class Elevator {
 public:
-    int id, level, weight;
+    int id, currentLevel, destinationLevel, weight;
     string direction;
     vector<int> instruction;
-
-    int createElevator(vector<Elevator> &L);
+    Elevator(vector<Elevator> &L);
 
     int printStats(vector<Elevator> &elist);
 
-    int addInstruction(vector<Elevator> &elist);
+   int addInstruction();
 
     int outputStats(vector<Elevator> & elist);
 
-    int elevatorBrain(Elevator & E);
+    int elevatorBrain();
 
     int Descend (vector<Elevator> & E);
 

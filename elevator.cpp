@@ -42,6 +42,7 @@ int Elevator::printStats(vector<Elevator> & elist)
     cout << "Elevator Current Level: " << currentLevel << endl;
     cout << "Elevator Destination Level: " << destinationLevel << endl;
     cout << "Elevator Direction: " << direction << endl;
+
     if(numInstructions) {
         cout << "Elevator Instructions: ";
         for (int i = 0; i < numInstructions; i++) {
@@ -102,7 +103,6 @@ int Elevator::outputStats(vector<Elevator> & elist) {
     else
         elevatorNum = 1;
     for (int j = 0; j < numElevators; j++) {
-
         elist[j];
         int numInstructions = instruction.size();
         stats << "Elevator " << id << endl;

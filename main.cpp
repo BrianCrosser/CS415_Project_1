@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 #include "elevator.h"
 
 using namespace std;
@@ -11,15 +12,19 @@ int step(vector<Elevator> & eList) {
     // moves the elevator one floor and checks to see if level is a requested level it must stop at.
     // If so, it removes level from instructions list
     for (int i = 0; i < eList.size(); i++) {
+        bool sameDirection = false;
         if (eList[i].direction == "up") {
             eList[i].currentLevel++;
             for (int j = 0; j < eList[i].instruction.size(); j++) {
                 // If desired level is reached, delete that level from instructions
                 if (eList[i].currentLevel == eList[i].instruction[j]) {
                     eList[i].instruction.erase(eList[i].instruction.begin() + j);
-                    eList[i].addInstruction();
-                    if (eList[i].instruction.size() == 0)
+                    for(int m = 0; m < eList[i].instruction.size(); m++)
+                        if(eList[i].instruction[m] > eList[i].currentLevel)
+                            sameDirection = true;
+                    if (eList[i].instruction.size() == 0 || !sameDirection)
                         eList[i].direction = "None";
+                    eList[i].addInstruction();
                 }
             }
         }
@@ -28,9 +33,12 @@ int step(vector<Elevator> & eList) {
             for (int j = 0; j < eList[i].instruction.size(); j++) {
                 if (eList[i].currentLevel == eList[i].instruction[j]) {
                     eList[i].instruction.erase(eList[i].instruction.begin() + j);
-                    eList[i].addInstruction();
-                    if (eList[i].instruction.size() == 0)
+                    for(int m = 0; m < eList[i].instruction.size(); m++)
+                        if(eList[i].instruction[m] < eList[i].currentLevel)
+                            sameDirection = true;
+                    if (eList[i].instruction.size() == 0 || !sameDirection)
                         eList[i].direction = "None";
+                    eList[i].addInstruction();
                 }
             }
         }
@@ -46,9 +54,9 @@ int addRequest(vector<Elevator> & eList){
     // ask users for new instructions
     request newRequest;
     cout << "What level is being requested?: ";
-    cin >> newRequest.level;
-    cout << "What direction are you going(up/down)?: ";
-    cin >> newRequest.direction;
+    cin >> newRequest.levelPickUp;
+    cout << "What level are you traveling to?: ";
+    cin >> newRequest.levelDesired;
     requestList.push_back(newRequest);
 
     // adds new request to elevator's instructions
@@ -66,7 +74,7 @@ int main()
     vector<Elevator> elevatorList;
 
     // Creates elevators
-    cout << "                                                                       .---.\n"
+    cout << "                                                               .---.\n"
                     "                                                              /  .  \\\n"
                     "                                                             |\\_/|   |\n"
                     "                                                             |   |  /|\n"
@@ -94,8 +102,10 @@ int main()
     // Creates amount of levels building has
     cout << "How many levels does the building have?: ";
     cin >> numLevels;
+    cout << endl;
 
     while(runBool) {
+        system("cls");
         cout << "Commands: (1) Step, (2) Add request, (3) Print stats of elevator to output file, (4) Print stats of elevator to screen, (5) exit program" << endl;
         cout << "Please give a command!: " << endl;
         cin >> userInput;
@@ -122,6 +132,8 @@ int main()
                 runBool = false;
                 break;
         }
+        system("pause");
+
     }
 
     return 0;

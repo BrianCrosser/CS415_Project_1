@@ -13,8 +13,7 @@
 using namespace std;
 
 struct request{
-    int level;
-    string direction;
+    int levelPickUp, levelDesired;
     int time;
 };
 

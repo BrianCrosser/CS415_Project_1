@@ -30,28 +30,28 @@ int Elevator::printStats(vector<Elevator> & elist)
     }
     else if(numElevators > 1) {
         cout << "There are " << numElevators << " elevators!" << endl;
-        cout << "What elevator do you want to know about?: ";
+        cout << "What elevator do you want to know about: ";
         cin >> elevatorNum;
     }
     else
         elevatorNum = 1;
 
-    elist[elevatorNum-1];
-    int numInstructions = instruction.size();
-    cout << "Elevator ID: " << id << endl;
-    cout << "Elevator Current Level: " << currentLevel << endl;
-    cout << "Elevator Destination Level: " << destinationLevel << endl;
-    cout << "Elevator Direction: " << direction << endl;
+    Elevator E = elist[elevatorNum-1];
+    int numInstructions = E.instruction.size();
+    cout << "Elevator ID: " << E.id << endl;
+    cout << "Elevator Current Level: " << E.currentLevel << endl;
+    cout << "Elevator Destination Level: " << E.destinationLevel << endl;
+    cout << "Elevator Direction: " << E.direction << endl;
 
     if(numInstructions) {
         cout << "Elevator Instructions: ";
         for (int i = 0; i < numInstructions; i++) {
             if (i == numInstructions - 1) {
-                cout << "Moving to level " << instruction[i] << endl;
+                cout << "Moving to level " << E.instruction[i] << endl;
                 //E.level = E.instruction[i];
             }
             else {
-                cout << "Moving to level " << instruction[i] << ", ";
+                cout << "Moving to level " << E.instruction[i] << ", ";
                 //E.level = E.instruction[i];
             }
         }
@@ -66,6 +66,7 @@ int Elevator::printStats(vector<Elevator> & elist)
 int Elevator::addInstruction() {
     int newLevel;
     string userInput;
+    cout << "Elevator " << id << " reached level " << currentLevel << "." << endl;
     cout << "Is there a new level for this elevator to go to(yes/no)?: ";
     cin >> userInput;
     if(userInput == "yes")
@@ -83,6 +84,7 @@ int Elevator::addInstruction() {
             instruction.push_back(newLevel);
         }
     }
+    cout << endl;
     return 0;
 }
 
@@ -147,20 +149,20 @@ int Elevator::elevatorBrain()
     {
         for(int i = 0; i < requestList.size(); i++)
         {
-            if(direction == "up" && requestList[i].direction == "up" && currentLevel < requestList[i].level) {
-                instruction.push_back(requestList[i].level);
+            if(currentLevel < requestList[i].levelPickUp && destinationLevel > requestList[i].levelDesired && currentLevel < requestList[i].levelDesired && direction == "up") {
+                instruction.push_back(requestList[i].levelPickUp);
                 requestList.erase(requestList.begin()+i);
                 i--;
             }
-            else if(direction == "down" && requestList[i].direction == "down" && currentLevel > requestList[i].level) {
-                instruction.push_back(requestList[i].level);
+            else if(currentLevel > requestList[i].levelPickUp && destinationLevel < requestList[i].levelDesired && currentLevel > requestList[i].levelDesired && direction == "down") {
+                instruction.push_back(requestList[i].levelPickUp);
                 requestList.erase(requestList.begin() + i);
                 i--;
             }
-            else if(direction == "None")
+            else if(instruction.size() == 0)
             {
-                instruction.push_back(requestList[i].level);
-                destinationLevel = requestList[i].level;
+                instruction.push_back(requestList[i].levelPickUp);
+                destinationLevel = requestList[i].levelPickUp;
                 if(currentLevel < instruction[0])
                     direction = "up";
                 else

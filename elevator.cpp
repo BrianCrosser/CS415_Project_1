@@ -65,26 +65,27 @@ int Elevator::printStats(vector<Elevator> & elist)
 
 int Elevator::addInstruction() {
     int newLevel;
-    string userInput;
-    cout << "Elevator " << id << " reached level " << currentLevel << "." << endl;
-    cout << "Is there a new level for this elevator to go to(yes/no)?: ";
-    cin >> userInput;
-    if(userInput == "yes")
-    {
-        cout << "What level is being added to the elevator's instructions?: ";
-        cin >> newLevel;
-        if(newLevel != currentLevel) {
-            if (instruction.size() == 0) {
-                if (newLevel < currentLevel)
-                    direction = "down";
-                else
-                    direction = "up";
-                destinationLevel = newLevel;
+    string userInput = "yes";
+    while(userInput == "yes") {
+        cout << "Elevator " << id << " reached level " << currentLevel << "." << endl;
+        cout << "Is there a new level for this elevator to go to(yes/no)?: ";
+        cin >> userInput;
+        if (userInput == "yes") {
+            cout << "What level is being added to the elevator's instructions?: ";
+            cin >> newLevel;
+            if (newLevel != currentLevel) {
+                if (direction == "None") {
+                    if (newLevel < currentLevel)
+                        direction = "down";
+                    else
+                        direction = "up";
+                    destinationLevel = newLevel;
+                }
+                instruction.push_back(newLevel);
             }
-            instruction.push_back(newLevel);
         }
+        cout << endl;
     }
-    cout << endl;
     return 0;
 }
 
@@ -161,12 +162,27 @@ int Elevator::elevatorBrain()
             }
             else if(instruction.size() == 0)
             {
-                instruction.push_back(requestList[i].levelPickUp);
-                destinationLevel = requestList[i].levelPickUp;
-                if(currentLevel < instruction[0])
+                if(currentLevel < requestList[i].levelPickUp)
+                {
                     direction = "up";
-                else
+                    instruction.push_back(requestList[i].levelPickUp);
+                    destinationLevel = requestList[i].levelPickUp;
+                }
+                else if(currentLevel > requestList[i].levelPickUp)
+                {
                     direction = "down";
+                    instruction.push_back(requestList[i].levelPickUp);
+                    destinationLevel = requestList[i].levelPickUp;
+                }
+                else
+                {
+                    if(currentLevel < requestList[i].levelDesired)
+                        direction = "up";
+                    else
+                        direction = "down";
+                    destinationLevel = requestList[i].levelDesired;
+                    instruction.push_back(requestList[i].levelDesired);
+                }
                 requestList.erase(requestList.begin() + i);
             }
         }

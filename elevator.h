@@ -13,8 +13,8 @@
 using namespace std;
 
 struct request{
-    int levelPickUp, levelDesired;
-    int time;
+    int levelPickUp, levelDesired, time;
+    string direction;
 };
 
 extern const int MAX_WEIGHT;
@@ -25,6 +25,7 @@ public:
     int id, currentLevel, destinationLevel, weight;
     string direction;
     vector<int> instruction;
+
     Elevator(vector<Elevator> &L);
 
     int printStats(vector<Elevator> &elist);

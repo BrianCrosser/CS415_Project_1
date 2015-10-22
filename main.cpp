@@ -19,6 +19,7 @@ int step(vector<Elevator> & eList) {
                 // If desired level is reached, delete that level from instructions
                 if (eList[i].currentLevel == eList[i].instruction[j]) {
                     eList[i].instruction.erase(eList[i].instruction.begin() + j);
+                    j--;
                     for(int m = 0; m < eList[i].instruction.size(); m++)
                         if(eList[i].instruction[m] > eList[i].currentLevel)
                             sameDirection = true;
@@ -33,6 +34,7 @@ int step(vector<Elevator> & eList) {
             for (int j = 0; j < eList[i].instruction.size(); j++) {
                 if (eList[i].currentLevel == eList[i].instruction[j]) {
                     eList[i].instruction.erase(eList[i].instruction.begin() + j);
+                    j--;
                     for(int m = 0; m < eList[i].instruction.size(); m++)
                         if(eList[i].instruction[m] < eList[i].currentLevel)
                             sameDirection = true;
@@ -50,6 +52,18 @@ int step(vector<Elevator> & eList) {
     return 0;
 }
 
+bool checkRequestExist(request newRequest, vector<Elevator> & eList) {
+    for (int i = 0; i < requestList.size(); i++)
+        if (newRequest.levelPickUp == requestList[i].levelPickUp && newRequest.direction == requestList[i].direction)
+            return false;
+    for (int i = 0; i < eList.size(); i++) {
+        for (int j = 0; j < eList[i].instruction.size(); j++)
+            if (newRequest.levelPickUp == eList[i].instruction[j])
+                return false;
+    }
+    return true;
+}
+
 int addRequest(vector<Elevator> & eList){
     // ask users for new instructions
     request newRequest;
@@ -57,7 +71,12 @@ int addRequest(vector<Elevator> & eList){
     cin >> newRequest.levelPickUp;
     cout << "What level are you traveling to?: ";
     cin >> newRequest.levelDesired;
-    requestList.push_back(newRequest);
+    if(newRequest.levelPickUp < newRequest.levelDesired)
+        newRequest.direction = "up";
+    else
+        newRequest.direction = "down";
+    if(checkRequestExist(newRequest, eList))
+        requestList.push_back(newRequest);
 
     // adds new request to elevator's instructions
     for(int i = 0; i < eList.size(); i++)
@@ -105,7 +124,6 @@ int main()
     cout << endl;
 
     while(runBool) {
-        system("cls");
         cout << "Commands: (1) Step, (2) Add request, (3) Print stats of elevator to output file, (4) Print stats of elevator to screen, (5) exit program" << endl;
         cout << "Please give a command!: " << endl;
         cin >> userInput;
@@ -132,8 +150,7 @@ int main()
                 runBool = false;
                 break;
         }
-        system("pause");
-
+        //system("pause");
     }
 
     return 0;

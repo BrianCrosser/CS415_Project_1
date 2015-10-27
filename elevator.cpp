@@ -10,6 +10,7 @@ Elevator::Elevator(vector<Elevator> & L)
 {
     //Create an elevator and its starting stats
     destinationLevel = 0;
+    weight = 0;
     id = L.size() +1;
     cout << "What is the elevator's initial level?: ";
     cin >> currentLevel;
@@ -39,6 +40,7 @@ int Elevator::printStats(vector<Elevator> & elist)
     Elevator E = elist[elevatorNum-1];
     int numInstructions = E.instruction.size();
     cout << "Elevator ID: " << E.id << endl;
+    cout << "Elevator Weight: " << E.weight << endl;
     cout << "Elevator Current Level: " << E.currentLevel << endl;
     cout << "Elevator Destination Level: " << E.destinationLevel << endl;
     cout << "Elevator Direction: " << E.direction << endl;
@@ -73,7 +75,7 @@ int Elevator::addInstruction() {
         if (userInput == "yes") {
             cout << "What level is being added to the elevator's instructions?: ";
             cin >> newLevel;
-            if (newLevel != currentLevel) {
+            if (newLevel != currentLevel && isValidLevel(newLevel, newLevel)) {
                 if (direction == "None") {
                     if (newLevel < currentLevel)
                         direction = "down";
@@ -82,6 +84,8 @@ int Elevator::addInstruction() {
                     destinationLevel = newLevel;
                 }
                 instruction.push_back(newLevel);
+                weight += rand() % (MAX_WEIGHT - weight) + 60;
+
             }
         }
         cout << endl;
@@ -95,7 +99,7 @@ int Elevator::outputStats(vector<Elevator> & elist) {
     int numElevators = elist.size();
 
     ofstream stats;
-    stats.open("/Users/zachswinford/Desktop/stats.txt");
+    stats.open("/Users/Brian/Desktop/elevator_stats.txt");
 
     if (numElevators == 0)
         stats << "There are no elevators!" << endl;
@@ -103,8 +107,7 @@ int Elevator::outputStats(vector<Elevator> & elist) {
         stats << "There are " << numElevators << " elevators!" << endl;
         stats << endl;
     }
-    else
-        elevatorNum = 1;
+
     for (int j = 0; j < numElevators; j++) {
         elist[j];
         int numInstructions = instruction.size();
@@ -117,12 +120,6 @@ int Elevator::outputStats(vector<Elevator> & elist) {
         if (numInstructions) {
             stats << "Elevator Instructions: ";
             for (int i = 0; i < numInstructions; i++) {
-/*
-                if (E.instruction[i] > E.level)
-                    E.direction = "up";
-                if (E.instruction[i] < E.level)
-                    E.direction = "down";
-*/
                 if (i == numInstructions - 1) {
                     stats << "Moving to level " << instruction[i] << endl;
                     //E.level = E.instruction[i];
@@ -150,13 +147,23 @@ int Elevator::elevatorBrain()
     {
         for(int i = 0; i < requestList.size(); i++)
         {
-            if(currentLevel < requestList[i].levelPickUp && destinationLevel > requestList[i].levelDesired && currentLevel < requestList[i].levelDesired && direction == "up") {
-                instruction.push_back(requestList[i].levelPickUp);
+            if(currentLevel <= requestList[i].levelPickUp && destinationLevel >= requestList[i].levelDesired && currentLevel < requestList[i].levelDesired && direction == "up") {
+                if(currentLevel == requestList[i].levelPickUp) {
+                    instruction.push_back(requestList[i].levelDesired);
+                    weight += rand() % (MAX_WEIGHT - weight) + 60;
+                }
+                else
+                    instruction.push_back(requestList[i].levelPickUp);
                 requestList.erase(requestList.begin()+i);
                 i--;
             }
-            else if(currentLevel > requestList[i].levelPickUp && destinationLevel < requestList[i].levelDesired && currentLevel > requestList[i].levelDesired && direction == "down") {
-                instruction.push_back(requestList[i].levelPickUp);
+            else if(currentLevel >= requestList[i].levelPickUp && destinationLevel <= requestList[i].levelDesired && currentLevel > requestList[i].levelDesired && direction == "down") {
+                if(currentLevel == requestList[i].levelPickUp) {
+                    instruction.push_back(requestList[i].levelDesired);
+                    weight += rand() % (MAX_WEIGHT - weight) + 60;
+                }
+                else
+                    instruction.push_back(requestList[i].levelPickUp);
                 requestList.erase(requestList.begin() + i);
                 i--;
             }
@@ -182,6 +189,7 @@ int Elevator::elevatorBrain()
                         direction = "down";
                     destinationLevel = requestList[i].levelDesired;
                     instruction.push_back(requestList[i].levelDesired);
+                    weight += rand() % (MAX_WEIGHT - weight) + 60;
                 }
                 requestList.erase(requestList.begin() + i);
             }
@@ -190,41 +198,32 @@ int Elevator::elevatorBrain()
     return 0;
 }
 
-/*
-int Elevator::Descend (vector<Elevator> & E)
+void Elevator::checkElevatorStats()
 {
-    vector<Elevator> list;
+    // Adds any request to elevator instructions that it can
+    elevatorBrain();
 
-    int numElevators = E.size();
-    for (int i = 0; i < numElevators; i++)
-    {
-        if (E[i].direction == "down")
-            list.push_back(E[i]);
-    }
-    sort(list.begin(),list.end(), greater<int>());
+    // Sets destination level to 0 if it does not have a destination
+    if(instruction.empty())
+        destinationLevel = 0;
 
-    for(int i = 0; i < list.size(); i++)
-        cout << list[i] << endl;
+    // Updates direction if there is none
+    if(direction == "None" && !instruction.empty())
+        if(instruction[0] < currentLevel){
+            direction = "down";
+            destinationLevel = instruction[0];
+        }
+        else{
+            direction = "up";
+            destinationLevel = instruction[0];
+        }
 
-    return 0;
+
 }
 
-
-int Elevator::Ascend (vector<Elevator> & E)
+bool isValidLevel(int beginLevel, int endLevel)
 {
-    vector<Elevator> list;
-
-    int numElevators = E.size();
-    for (int i = 0; i < numElevators; i++)
-    {
-        if (E[i].direction == "up")
-            list.push_back(E[i]);
-    }
-    sort(list.begin(),list.end(), less<int>());
-
-    for(int i = 0; i < list.size(); i++)
-        cout << list[i] << endl;
-
-    return 0;
+    if(beginLevel < 1 || beginLevel > numLevels || endLevel > numLevels || endLevel < 1)
+        return false;
+    return true;
 }
- */

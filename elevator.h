@@ -18,7 +18,10 @@ struct request{
 };
 
 extern const int MAX_WEIGHT;
+extern int numLevels;
 extern vector<request> requestList;
+
+bool isValidLevel(int beginLevel, int endLevel);
 
 class Elevator {
 public:
@@ -36,9 +39,7 @@ public:
 
     int elevatorBrain();
 
-    int Descend (vector<Elevator> & E);
-
-    int Ascend (vector<Elevator> & E);
+    void checkElevatorStats();
 
 };
     #endif //CS415_PROJECT_1_ELEVATOR_H

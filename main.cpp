@@ -6,7 +6,17 @@
 using namespace std;
 
 const int MAX_WEIGHT = 2500;
+int numLevels;
 vector<request> requestList;
+
+void removeWeight(Elevator & E)
+{
+    if(E.instruction.empty())
+        E.weight = 0;
+    else
+        E.weight -= rand() % E.weight + 60;
+
+}
 
 int step(vector<Elevator> & eList) {
     // moves the elevator one floor and checks to see if level is a requested level it must stop at.
@@ -19,10 +29,14 @@ int step(vector<Elevator> & eList) {
                 // If desired level is reached, delete that level from instructions
                 if (eList[i].currentLevel == eList[i].instruction[j]) {
                     eList[i].instruction.erase(eList[i].instruction.begin() + j);
+                    removeWeight(eList[i]);
                     j--;
                     for(int m = 0; m < eList[i].instruction.size(); m++)
-                        if(eList[i].instruction[m] > eList[i].currentLevel)
+                        if(eList[i].instruction[m] > eList[i].currentLevel) {
                             sameDirection = true;
+                            if(eList[i].instruction[m] > eList[i].destinationLevel)
+                                eList[i].destinationLevel = eList[i].instruction[m];
+                        }
                     if (eList[i].instruction.size() == 0 || !sameDirection)
                         eList[i].direction = "None";
                     eList[i].addInstruction();
@@ -34,10 +48,14 @@ int step(vector<Elevator> & eList) {
             for (int j = 0; j < eList[i].instruction.size(); j++) {
                 if (eList[i].currentLevel == eList[i].instruction[j]) {
                     eList[i].instruction.erase(eList[i].instruction.begin() + j);
+                    removeWeight(eList[i]);
                     j--;
                     for(int m = 0; m < eList[i].instruction.size(); m++)
-                        if(eList[i].instruction[m] < eList[i].currentLevel)
+                        if(eList[i].instruction[m] < eList[i].currentLevel){
                             sameDirection = true;
+                            if(eList[i].instruction[m] < eList[i].destinationLevel)
+                                eList[i].destinationLevel = eList[i].instruction[m];
+                        }
                     if (eList[i].instruction.size() == 0 || !sameDirection)
                         eList[i].direction = "None";
                     eList[i].addInstruction();
@@ -47,12 +65,13 @@ int step(vector<Elevator> & eList) {
     }
     // adds new request to elevator's instructions
     for(int i = 0; i < eList.size(); i++)
-        eList[i].elevatorBrain();
+        eList[i].checkElevatorStats();
 
     return 0;
 }
 
-bool checkRequestExist(request newRequest, vector<Elevator> & eList) {
+bool checkRequestExist(request newRequest, vector<Elevator> & eList)
+{
     for (int i = 0; i < requestList.size(); i++)
         if (newRequest.levelPickUp == requestList[i].levelPickUp && newRequest.direction == requestList[i].direction)
             return false;
@@ -71,13 +90,14 @@ int addRequest(vector<Elevator> & eList){
     cin >> newRequest.levelPickUp;
     cout << "What level are you traveling to?: ";
     cin >> newRequest.levelDesired;
-    if(newRequest.levelPickUp < newRequest.levelDesired)
-        newRequest.direction = "up";
-    else
-        newRequest.direction = "down";
-    if(checkRequestExist(newRequest, eList))
-        requestList.push_back(newRequest);
-
+    if(newRequest.levelPickUp != newRequest.levelDesired && isValidLevel(newRequest.levelPickUp, newRequest.levelDesired)) {
+        if (newRequest.levelPickUp < newRequest.levelDesired)
+            newRequest.direction = "up";
+        else
+            newRequest.direction = "down";
+        if (checkRequestExist(newRequest, eList))
+            requestList.push_back(newRequest);
+    }
     // adds new request to elevator's instructions
     for(int i = 0; i < eList.size(); i++)
         eList[i].elevatorBrain();
@@ -88,7 +108,7 @@ int addRequest(vector<Elevator> & eList){
 int main()
 {
     // Declaring variables needed
-    int userInput, numElevators, numLevels;
+    int userInput, numElevators;
     bool runBool = true;
     vector<Elevator> elevatorList;
 

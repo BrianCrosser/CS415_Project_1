@@ -147,7 +147,7 @@ int Elevator::elevatorBrain()
     {
         for(int i = 0; i < requestList.size(); i++)
         {
-            if(currentLevel <= requestList[i].levelPickUp && destinationLevel >= requestList[i].levelDesired && currentLevel < requestList[i].levelDesired && direction == "up") {
+            if(currentLevel <= requestList[i].levelPickUp && destinationLevel >= requestList[i].levelDesired && currentLevel < requestList[i].levelDesired && direction == requestList[i].direction) {
                 if(currentLevel == requestList[i].levelPickUp) {
                     instruction.push_back(requestList[i].levelDesired);
                     weight += rand() % (MAX_WEIGHT - weight) + 60;
@@ -157,7 +157,7 @@ int Elevator::elevatorBrain()
                 requestList.erase(requestList.begin()+i);
                 i--;
             }
-            else if(currentLevel >= requestList[i].levelPickUp && destinationLevel <= requestList[i].levelDesired && currentLevel > requestList[i].levelDesired && direction == "down") {
+            else if(currentLevel >= requestList[i].levelPickUp && destinationLevel <= requestList[i].levelDesired && currentLevel > requestList[i].levelDesired && direction == requestList[i].direction) {
                 if(currentLevel == requestList[i].levelPickUp) {
                     instruction.push_back(requestList[i].levelDesired);
                     weight += rand() % (MAX_WEIGHT - weight) + 60;

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include <iomanip>
 #include "elevator.h"
 
 using namespace std;
@@ -77,7 +78,7 @@ bool checkRequestExist(request newRequest, vector<Elevator> & eList)
             return false;
     for (int i = 0; i < eList.size(); i++) {
         for (int j = 0; j < eList[i].instruction.size(); j++)
-            if (newRequest.levelPickUp == eList[i].instruction[j])
+            if (newRequest.levelPickUp == eList[i].instruction[j] && newRequest.direction == eList[i].direction)
                 return false;
     }
     return true;
@@ -103,6 +104,21 @@ int addRequest(vector<Elevator> & eList){
         eList[i].elevatorBrain();
 
     return 0;
+}
+
+void show(vector<Elevator> elevatorList, int numFloors)
+{
+    cout << "Floor:" << setw(12);
+    for(int i = 0; i < numFloors; i++) {
+        cout << "     " << i + 1;
+    }
+    cout << endl;
+    cout << endl;
+    for(int i = 0; i < elevatorList.size(); i++){
+        cout << "Elevator #: " << elevatorList[i].id;
+        cout << setw(6 * elevatorList[i].currentLevel - 1) << "[" << elevatorList[i].weight << "]" << endl;
+    }
+    cout << endl;
 }
 
 int main()
@@ -144,7 +160,9 @@ int main()
     cout << endl;
 
     while(runBool) {
-        cout << "Commands: (1) Step, (2) Add request, (3) Print stats of elevator to output file, (4) Print stats of elevator to screen, (5) exit program" << endl;
+        show(elevatorList, numLevels);
+        cout << "Commands: (1) Step, (2) Add request, (3) Print stats of elevator to output file," << endl;
+        cout << setw(10) << "(4) Print stats of elevator to screen, (5) exit program" << endl;
         cout << "Please give a command!: " << endl;
         cin >> userInput;
         switch (userInput) {
@@ -171,6 +189,8 @@ int main()
                 break;
         }
         //system("pause");
+        cout << "------------------------------------------------------------------------------------------" << endl;
+        cout << "------------------------------------------------------------------------------------------" << endl;
     }
 
     return 0;
